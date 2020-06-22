@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.template import loader
 
 from .models import Post
@@ -21,6 +21,8 @@ def index(request):
 
 
 def post(request, post_id): 
-  response = "Here is the page for %s."
-
-  return HttpResponse(response % post_id)
+  try:
+    post = Post.objects.get(pk=post_id)
+  except Post.DoesNotExist:
+    raise Http404("This post does not exist")
+  return render(request, 'posts/post.html', {'post': post})
