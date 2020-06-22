@@ -4,3 +4,8 @@ from django.http import HttpResponse
 # Create your views here.
 def index(request): 
   return HttpResponse('Hello from posts!')
+
+def post(request, post_id): 
+  response = "Here is the page for %s."
+
+  return HttpResponse(response % post_id)
