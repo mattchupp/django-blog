@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, Http404
 from django.template import loader
 
@@ -21,8 +21,7 @@ def index(request):
 
 
 def post(request, post_id): 
-  try:
-    post = Post.objects.get(pk=post_id)
-  except Post.DoesNotExist:
-    raise Http404("This post does not exist")
+  # shortcut - get the post and if 404 return not found
+  post = get_object_or_404(Post, pk=post_id)
+  # render post with posts/post.html template
   return render(request, 'posts/post.html', {'post': post})
